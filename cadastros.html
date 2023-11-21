@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <p id="cadastroSucesso" style="color: green; display: none;">Cadastro realizado com sucesso!</p>
+</head>
+<body>
+    <div id="main-container">
+        <h1>Cadastre-se</h1>
+        <form id="cadastros" action="/adicionar" method="POST" enctype="multipart/form-data">
+            <div class="half-box spacing">
+                <label for="usuario">Usuário</label>
+                <input type="text" name="usuario" id="usuario" placeholder="Digite seu usuário">
+            </div>
+            <div class="half-box spacing">
+                <label for="nick">Nick</label>
+                <input type="text" name="nick" id="nick" placeholder="Digite seu nick">
+            </div>
+            <div class="full-box">
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="Digite sua senha">
+            </div> 
+            <div class="half-box spacing">
+                <label for="confirmSenha">Confirmar Senha</label>
+                <input type="password" name="confirmSenha" id="confirmSenha" placeholder="Confirme a sua senha">
+            </div>
+            <div class="full-box">
+                <label for="bio">Bio</label>
+                <input type="text" name="bio" id="bio" placeholder="Escreva algo na sua bio...">
+            </div>
+            <div class="half-box spacing">
+                <label for="cidade">Cidade</label>
+                <input type="text" name="cidade" id="cidade" placeholder="Digite sua cidade">
+            </div>
+            <div class="half-box spacing">
+                <label for="estado">Estado</label>
+                <input type="text" name="estado" id="estado" placeholder="Digite seu estado">
+            </div>
+            <div class="half-box spacing">
+                <label for="pais">País</label>
+                <input type="text" name="pais" id="pais" placeholder="Digite seu país">
+            </div>
+            <div class="half-box spacing">
+                <label for="imagem">Imagem de Perfil:</label>
+                <input type="file" name="imagem" id="imagem" accept="image/*"><br>
+            </div>
+            <div class="full-box">
+                <input type="submit" id="btn-submit" value="Cadastrar">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cadastroSucesso = document.getElementById("cadastroSucesso");
+            const cadastros = document.getElementById("cadastros");
+    
+            cadastros.addEventListener("submit", async function (e) {
+                e.preventDefault();
+    
+                const response = await fetch("/adicionar", {
+                    method: "POST",
+                    body: new FormData(cadastros),
+                });
+    
+                const result = await response.json();
+    
+                if (result.success) {
+                    cadastroSucesso.style.display = "block";
+                    cadastros.reset();
+                } else {
+                    alert(result.error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
